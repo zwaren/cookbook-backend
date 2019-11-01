@@ -152,3 +152,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
+
+MEDIA_URL =  '/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")

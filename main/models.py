@@ -14,3 +14,8 @@ class RecipeStep(models.Model):
     image = models.URLField()
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
+
+class File(models.Model):
+    file = models.FileField(blank=False, null=False)
+    def __str__(self):
+        return self.file.name

@@ -5,4 +5,5 @@ from . import views
 urlpatterns = [
     path('recipes', views.RecipeList.as_view()),
     path('recipe_steps', views.RecipeStepList.as_view()),
+    path('upload', views.FileUploadView.as_view()),
 ]
