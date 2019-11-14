@@ -35,8 +35,7 @@ class RecipeList(ListCreateAPIView):
         q = self.request.query_params.get('q')
 
         if q is not None:
-            return qs.select_related('author') \
-                .annotate(search=SearchVector('name', 'description', 'ingredients')) \
+            return qs.annotate(search=SearchVector('name', 'description', 'ingredients')) \
                 .filter(search=q)
 
         return Recipe.objects.all()
