@@ -8,3 +8,4 @@ pytz==2019.3
 sqlparse==0.3.0
 whitenoise==4.1.4
 django-cors-headers==3.1.1
+websocket==0.2.1
