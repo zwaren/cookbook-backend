@@ -1,11 +1,16 @@
 from django.db import models
 
+from django.contrib.postgres.indexes import GinIndex
+
 
 class Recipe(models.Model):
     name = models.CharField(max_length=200)
     image = models.URLField()
     description = models.TextField()
     ingredients = models.TextField()
+
+    class Meta:
+        indexes = [GinIndex(fields=['name', 'description', 'ingredients'])]
 
 
 class RecipeStep(models.Model):
