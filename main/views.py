@@ -58,3 +58,29 @@ class FileUploadView(APIView):
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class VkHook(APIView):
+    queryset = Recipe.objects.all()
+
+    def post(self, request):
+        if request.data.get('type') == "confirmation" and request.data.get("group_id") == 188793599:
+            return HttpResponse('b7b7bd24')
+
+        label = request.data.get('object').get('body').split('\n')
+        recipe = { "name": label[0], "image": label[1], "description": label[2], "ingredients": label[3] }
+        serializer = RecipeSerializer(data=recipe)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+        ws(json.dumps({
+            "type": "post",
+            "data": request.data
+        }))
+
+        ws(json.dumps({
+            "type": "recipe",
+            "data": RecipeSerializer(self.get_queryset(), many=True).data
+        }))
+
+        return HttpResponse('ok', content_type="text/plain", status=200)
