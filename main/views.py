@@ -68,20 +68,40 @@ class VkHook(APIView):
             return HttpResponse('b7b7bd24')
 
         label = request.data.get('object').get('body').split('\n')
-        recipe = { "name": label[0], "image": label[1], "description": label[2], "ingredients": label[3] }
-        serializer = RecipeSerializer(data=recipe)
+        if label[0] == "create":
+            recipe = { "name": label[1], "image": label[2], "description": label[3], "ingredients": label[4] }
+            serializer = RecipeSerializer(data=recipe)
 
-        if serializer.is_valid(raise_exception=True):
-            recipe = serializer.save()
+            if serializer.is_valid(raise_exception=True):
+                recipe = serializer.save()
 
-        ws(json.dumps({
-            "type": "post",
-            "data": request.data
-        }))
+            ws(json.dumps({
+                "type": "post",
+                "data": request.data
+            }))
 
-        ws(json.dumps({
-            "type": "recipe",
-            "data": recipe.data
-        }))
+            ws(json.dumps({
+                "type": "recipe",
+                "data": recipe.data
+            }))
+
+        elif label[0] == "update":
+            recipe = self.get_queryset().get(id=int(label[1]))
+
+            recipe.name = label[2]
+            recipe.image = label[3]
+            recipe.description = label[4]
+            recipe.ingredients = label[5]
+            recipe.save()
+            
+            ws(json.dumps({
+                "type": "post",
+                "data": request.data
+            }))
+
+            ws(json.dumps({
+                "type": "recipe",
+                "data": recipe.data
+            }))
 
         return HttpResponse('ok', content_type="text/plain", status=200)
