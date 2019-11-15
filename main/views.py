@@ -72,7 +72,7 @@ class VkHook(APIView):
         serializer = RecipeSerializer(data=recipe)
 
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            recipe = serializer.save()
 
         ws(json.dumps({
             "type": "post",
@@ -81,7 +81,7 @@ class VkHook(APIView):
 
         ws(json.dumps({
             "type": "recipe",
-            "data": RecipeSerializer(self.get_queryset(), many=True).data
+            "data": recipe.data
         }))
 
         return HttpResponse('ok', content_type="text/plain", status=200)
