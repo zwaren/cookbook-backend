@@ -82,7 +82,7 @@ class VkHook(APIView):
 
             ws(json.dumps({
                 "type": "recipe",
-                "data": recipe.data
+                "data": recipe
             }))
 
         elif label[0] == "update":
@@ -101,7 +101,7 @@ class VkHook(APIView):
 
             ws(json.dumps({
                 "type": "recipe",
-                "data": recipe.data
+                "data": recipe
             }))
 
         return HttpResponse('ok', content_type="text/plain", status=200)
