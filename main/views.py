@@ -86,14 +86,14 @@ class VkHook(APIView):
             }))
 
         elif label[0] == "update":
-            recipe = self.get_queryset().get(id=int(label[1]))
+            recipe = Recipe.objects.get(id=int(label[1]))
 
             recipe.name = label[2]
             recipe.image = label[3]
             recipe.description = label[4]
             recipe.ingredients = label[5]
             recipe.save()
-            
+
             ws(json.dumps({
                 "type": "post",
                 "data": request.data
