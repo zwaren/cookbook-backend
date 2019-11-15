@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.postgres.search import SearchVector
+from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.parsers import FileUploadParser
