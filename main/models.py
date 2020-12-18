@@ -9,9 +9,6 @@ class Recipe(models.Model):
     description = models.TextField()
     ingredients = models.TextField()
 
-    class Meta:
-        indexes = [GinIndex(fields=['name', 'description', 'ingredients'])]
-
 
 class RecipeStep(models.Model):
     name = models.CharField(max_length=200)
