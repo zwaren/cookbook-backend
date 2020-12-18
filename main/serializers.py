@@ -24,7 +24,7 @@ class FileSerializer(serializers.ModelSerializer):
 
 
 class NoteSerializer(serializers.ModelSerializer):
-    nid = serializers.IntegerField(source='id')
+    nid = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = Note
