@@ -24,3 +24,8 @@ class File(models.Model):
     file = models.FileField(blank=False, null=False)
     def __str__(self):
         return self.file.name
+
+
+class Note(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)

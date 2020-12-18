@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from .models import RecipeStep, Recipe, File
+from .models import RecipeStep, Recipe, File, Note
+
 
 class RecipeStepSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,3 +21,11 @@ class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
         fields = "__all__"
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    nid = serializers.IntegerField(source='id')
+
+    class Meta:
+        model = Note
+        fields = ['nid', 'title', 'description']

@@ -2,15 +2,15 @@ import json
 
 from django.contrib.postgres.search import SearchVector
 from django.http import HttpResponse
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from websocket import create_connection
 
-from .models import File, Recipe, RecipeStep
-from .serializers import FileSerializer, RecipeSerializer, RecipeStepSerializer
+from .models import File, Recipe, RecipeStep, Note
+from .serializers import FileSerializer, RecipeSerializer, RecipeStepSerializer, NoteSerializer
 
 
 def ws(data):
@@ -60,6 +60,7 @@ class FileUploadView(APIView):
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class VkHook(APIView):
     queryset = Recipe.objects.all()
 
@@ -105,3 +106,8 @@ class VkHook(APIView):
             }))
 
         return HttpResponse('ok', content_type="text/plain", status=200)
+
+
+class NoteViewSet(viewsets.ModelViewSet):
+    queryset = Note.objects.all()
+    serializer_class = NoteSerializer
